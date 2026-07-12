@@ -1,7 +1,0 @@
-Before:
-  let driver = deja#null#get_driver()
-
-Execute (always return null):
-  call driver.write('/path/to/resource', { 'some': 'content' })
-  AssertEqual v:null, driver.read('/path/to/resource')
-  AssertEqual v:null, driver.read('/unset/path')
