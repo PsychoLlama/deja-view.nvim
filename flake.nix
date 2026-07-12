@@ -1,45 +1,41 @@
 {
-  description = "Test environment";
+  description = "Development environment";
 
-  inputs.dotfiles.url = "github:PsychoLlama/dotfiles";
+  inputs = {
+    systems.url = "github:nix-systems/default";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+  };
 
-  outputs = { self, nixpkgs, dotfiles }:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      systems,
+    }:
+
     let
       inherit (nixpkgs) lib;
-      systems = [ "x86_64-linux" ];
 
-      pkgsFor = system:
-        import nixpkgs {
-          inherit system;
-          overlays = [ dotfiles.overlays.vim-plugins ];
-        };
+      eachSystem = lib.flip lib.mapAttrs (
+        lib.genAttrs (import systems) (system: import nixpkgs { inherit system; })
+      );
+    in
 
-      eachSystem = f:
-        lib.pipe systems [
-          (map (system: lib.nameValuePair system (pkgsFor system)))
-          lib.listToAttrs
-          (lib.mapAttrs f)
-        ];
-
-    in {
-      # Builds a variant of my editor using the local deja-view plugin.
-      devShell = eachSystem (system: pkgs:
-        pkgs.mkShell {
-          buildInputs = [
-            (dotfiles.lib.buildEditor {
-              inherit system;
-
-              config = {
-                presets.base.enable = true;
-                plugins.deja-view-vim.enable = false;
-
-                extraConfig = lib.mkBefore ''
-                  " Add the repo root as a plugin.
-                  exe 'set rtp^=' . systemlist('git rev-parse --show-toplevel')[0]
-                '';
-              };
-            })
-          ];
-        });
+    {
+      devShells = eachSystem (
+        system: pkgs: {
+          default = pkgs.mkShell {
+            packages = [
+              pkgs.just
+              pkgs.lua-language-server
+              pkgs.luajitPackages.luacheck
+              pkgs.luajitPackages.vusted
+              pkgs.nixfmt
+              pkgs.stylua
+              pkgs.treefmt
+            ];
+          };
+        }
+      );
     };
 }
