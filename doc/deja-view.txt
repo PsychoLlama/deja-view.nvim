@@ -70,12 +70,13 @@ API                                                             *deja-view-api*
   -- Optional. Overrides the default config.
   deja_view.setup({ ... })
 
-  -- Save the current window's view. Runs automatically on |BufLeave| and
-  -- |VimLeavePre|.
+  -- Save the current window's view. Runs automatically on |BufLeave|,
+  -- |BufUnload|, and |VimLeavePre|.
   deja_view.save()
 
-  -- Restore the current window's view. Runs automatically on |BufReadPost|.
-  -- Ignores views that look stale or out of bounds.
+  -- Restore the current window's view. Runs automatically when a buffer is
+  -- first read; reloads (|:edit|, |:checktime|) are left to Nvim, which
+  -- already keeps the cursor in place. Ignores views that are out of bounds.
   deja_view.restore()
 
 vim: ft=help tw=78:

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Reloading a buffer (`:edit`, `:checktime`, …) no longer yanks the cursor back to the last saved position. Views are now saved when a buffer unloads, so the stored view stays fresh through reloads, `:bdelete`, and `'nohidden'` abandons.
+
 ### Changed
 
 - **Breaking:** Rewrote the plugin in Lua. Vim is no longer supported; only Neovim going forward.
