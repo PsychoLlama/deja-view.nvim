@@ -1,0 +1,77 @@
+*deja-view* remembers where you left off in a file
+
+Author:   Jesse Gibson <JesseTheGibson@gmail.com>
+Homepage: https://github.com/PsychoLlama/deja-view.nvim
+License:  MIT
+
+
+  Press `gO` to show the table of contents.
+
+
+==============================================================================
+OVERVIEW                                                   *deja-view-overview*
+
+Deja View restores your cursor and viewport when you reopen a file. Neovim
+can kind of do this already (see |last-position-jump|), but it only restores
+the cursor, not the scroll position. This plugin remembers the whole view
+using |winsaveview()|.
+
+The plugin is active as soon as it's installed. No configuration required.
+
+==============================================================================
+SETUP                                                         *deja-view.setup*
+
+Configuration is optional. If the defaults don't suit you, pass overrides to
+the `setup` function:
+>lua
+  require('deja-view').setup({
+    -- Where views are saved. This is the default:
+    save_dir = vim.fs.joinpath(vim.fn.stdpath('state'), 'deja-view'),
+  })
+
+Views are stored as JSON, one file per remembered buffer. File names are
+escaped and written flat, much like 'undodir'.
+
+==============================================================================
+SAVE MODES                                               *deja-view-save-modes*
+
+Deja View decides how to store views depending on the type of buffer:
+
+- `disk` (default): persist views across sessions.
+- `memory`: remember views for the current session only. Useful for virtual
+  buffers, like help pages, man pages, or file browsers.
+- `none`: never remember anything.
+
+Commit messages and terminal buffers always use `none`; the same path holds
+different content every time, so restoring a view would do more harm than
+good.
+
+                                     *b:deja_view_mode* *g:deja_view_mode*
+Override the mode per buffer or globally with a variable:
+>lua
+  -- Keep views for this buffer in memory.
+  vim.b.deja_view_mode = 'memory'
+
+  -- Change the default for all buffers.
+  vim.g.deja_view_mode = 'memory'
+
+Buffer-local settings take priority over globals.
+
+==============================================================================
+API                                                             *deja-view-api*
+
+>lua
+  local deja_view = require('deja-view')
+
+  -- Optional. Overrides the default config.
+  deja_view.setup({ ... })
+
+  -- Save the current window's view. Runs automatically on |BufLeave| and
+  -- |VimLeavePre|.
+  deja_view.save()
+
+  -- Restore the current window's view. Runs automatically on |BufReadPost|.
+  -- Ignores views that look stale or out of bounds.
+  deja_view.restore()
+
+vim: ft=help tw=78:
