@@ -3,7 +3,6 @@
   <p><em>Buffers, just how you left them.</em></p>
 </div>
 
-
 <h2>
   Purpose
   <a href="https://github.com/PsychoLlama/deja-view.vim/actions/workflows/test.yml">
@@ -15,12 +14,11 @@ This plugin remembers where you left off in a file, restoring your cursor and vi
 
 Vim can kind of do this already, so if you're looking for something simple, just read `:help last-position-jump`. It'll get you 90% of the way there.
 
-What it *doesn't* do is restore your scroll position, a detail which finally got annoying enough that I wrote my own plugin. It uses `winsaveview()` under the hood.
+What it _doesn't_ do is restore your scroll position, a detail which finally got annoying enough that I wrote my own plugin. It uses `winsaveview()` under the hood.
 
 ## Installation
 
 Deja View is compatible with vim & neovim.
-
 
 **[packer](https://github.com/wbthomason/packer.nvim)**
 

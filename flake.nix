@@ -31,6 +31,7 @@
               pkgs.luajitPackages.luacheck
               pkgs.luajitPackages.vusted
               pkgs.nixfmt
+              pkgs.prettier
               pkgs.stylua
               pkgs.treefmt
             ];

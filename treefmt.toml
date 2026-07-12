@@ -5,3 +5,8 @@ includes = ["*.lua"]
 [formatter.nix]
 command = "nixfmt"
 includes = ["*.nix"]
+
+[formatter.prettier]
+command = "prettier"
+options = ["--write"]
+includes = ["*.md"]
