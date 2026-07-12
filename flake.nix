@@ -22,6 +22,23 @@
     in
 
     {
+      packages = eachSystem (
+        system: pkgs: rec {
+          default = deja-view-nvim;
+
+          deja-view-nvim = pkgs.vimUtils.buildVimPlugin {
+            pname = "deja-view.nvim";
+            version = self.shortRev or "latest";
+            src = lib.fileset.toSource {
+              root = ./.;
+              fileset = lib.fileset.difference ./. (
+                lib.fileset.fileFilter (file: lib.hasSuffix "_spec.lua" file.name) ./.
+              );
+            };
+          };
+        }
+      );
+
       devShells = eachSystem (
         system: pkgs:
         let
