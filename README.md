@@ -1,14 +1,8 @@
-<div align="center">
-  <h1>deja-view.nvim</h1>
-  <p><em>Buffers, just how you left them.</em></p>
-</div>
+# deja-view.nvim
 
-<h2>
-  Purpose
-  <a href="https://github.com/PsychoLlama/deja-view.nvim/actions/workflows/ci.yml">
-    <img alt="CI status badge" align="right" src="https://github.com/PsychoLlama/deja-view.nvim/actions/workflows/ci.yml/badge.svg" />
-  </a>
-</h2>
+Buffers, just how you left them.
+
+## Purpose
 
 This plugin remembers where you left off in a file, restoring your cursor and viewport.
 
@@ -34,15 +28,6 @@ The plugin works out of the box. No configuration required.
 
 ```lua
 add({ source = 'PsychoLlama/deja-view.nvim' })
-```
-
-</details>
-
-<details>
-  <summary><strong>vim-plug</strong></summary>
-
-```vim
-Plug 'PsychoLlama/deja-view.nvim'
 ```
 
 </details>
