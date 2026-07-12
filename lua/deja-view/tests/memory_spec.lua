@@ -1,4 +1,4 @@
-local memory = require('deja-view._.memory')
+local memory = require('deja-view.memory')
 
 describe('memory', function()
   before_each(function()

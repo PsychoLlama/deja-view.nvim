@@ -3,7 +3,7 @@ local M = {}
 --- Configure the plugin. Optional; the plugin works without it.
 --- @param config? dejaview.UserConfig
 function M.setup(config)
-  require('deja-view._.config').set_config(config)
+  require('deja-view.config').set_config(config)
 end
 
 --- Save the current window's view.
@@ -14,7 +14,7 @@ function M.save()
     return
   end
 
-  local driver = require('deja-view._.driver').load()
+  local driver = require('deja-view.driver').load()
   driver.write(path, vim.fn.winsaveview())
 end
 
@@ -26,7 +26,7 @@ function M.restore()
     return
   end
 
-  local view = require('deja-view._.driver').load().read(path)
+  local view = require('deja-view.driver').load().read(path)
 
   -- If the remembered line number is out of bounds, it's probably wrong.
   if

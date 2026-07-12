@@ -1,4 +1,5 @@
-local config = require('deja-view._.config')
+local config = require('deja-view.config')
+local driver = require('deja-view.driver')
 
 describe('config', function()
   after_each(function()
@@ -26,5 +27,16 @@ describe('config', function()
       vim.fs.joinpath(vim.fn.stdpath('state'), 'deja-view'),
       config.get_config().save_dir
     )
+  end)
+
+  it('defaults the driver selector to the built-in', function()
+    assert.are.equal(driver.default, config.get_config().driver)
+  end)
+
+  it('accepts a custom driver selector', function()
+    local select_driver = function() end
+    config.set_config({ driver = select_driver })
+
+    assert.are.equal(select_driver, config.get_config().driver)
   end)
 end)

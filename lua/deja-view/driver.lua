@@ -10,49 +10,29 @@ local null_driver = {
   write = function() end,
 }
 
---- Figure out which save mode applies to a buffer. Buffer-local settings
---- take priority over globals.
+--- The default driver selector. Persists real files to disk and refuses to
+--- remember buffers whose path is reused or transient.
 --- @param bufnr integer
---- @return string
-local function get_save_mode(bufnr)
+--- @return dejaview.Driver|nil
+function M.default(bufnr)
   -- Commit messages live at the same path every time and terminal buffers
   -- are transient. Remembering their views is never right.
   if
     vim.bo[bufnr].filetype == 'gitcommit'
     or vim.bo[bufnr].buftype == 'terminal'
   then
-    return 'none'
+    return nil
   end
 
-  local mode = vim.b[bufnr].deja_view_mode or vim.g.deja_view_mode or 'disk'
-  return mode
+  return require('deja-view.disk')
 end
 
 --- Load the storage driver for a buffer.
 --- @param bufnr? integer Defaults to the current buffer.
 --- @return dejaview.Driver
 function M.load(bufnr)
-  local mode = get_save_mode(bufnr or 0)
-
-  if mode == 'disk' then
-    return require('deja-view._.disk')
-  end
-
-  if mode == 'none' then
-    return null_driver
-  end
-
-  if mode ~= 'memory' then
-    vim.notify_once(
-      string.format(
-        '[deja-view] Unknown save mode "%s". Falling back to "memory".',
-        mode
-      ),
-      vim.log.levels.ERROR
-    )
-  end
-
-  return require('deja-view._.memory')
+  local select_driver = require('deja-view.config').get_config().driver
+  return select_driver(bufnr or 0) or null_driver
 end
 
 return M
@@ -61,6 +41,10 @@ return M
 --- @class dejaview.Driver
 --- @field read fun(path: string): dejaview.View|nil
 --- @field write fun(path: string, view: dejaview.View)
+
+--- Decides which driver, if any, remembers a buffer's view. Returning `nil`
+--- means the buffer is never remembered.
+--- @alias dejaview.DriverSelector fun(bufnr: integer): dejaview.Driver|nil
 
 --- The saved window state. Structure comes from |winsaveview()|. Partial
 --- views are allowed because |winrestview()| accepts them.

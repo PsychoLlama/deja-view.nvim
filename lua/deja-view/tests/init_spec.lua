@@ -1,5 +1,7 @@
+local config = require('deja-view.config')
 local deja_view = require('deja-view')
-local memory = require('deja-view._.memory')
+local disk = require('deja-view.disk')
+local memory = require('deja-view.memory')
 
 --- Create a file on disk with the given number of lines.
 --- @param lines integer
@@ -18,19 +20,27 @@ end
 
 describe('deja-view', function()
   before_each(function()
-    vim.g.deja_view_mode = 'memory'
+    deja_view.setup({
+      driver = function()
+        return memory
+      end,
+    })
     memory.clear()
     vim.cmd.enew()
   end)
 
   after_each(function()
-    vim.g.deja_view_mode = nil
+    config.set_config(nil)
     vim.cmd('%bwipeout!')
   end)
 
   it('saves and restores views across buffer loads', function()
-    deja_view.setup({ save_dir = vim.fn.tempname() })
-    vim.g.deja_view_mode = 'disk'
+    deja_view.setup({
+      save_dir = vim.fn.tempname(),
+      driver = function()
+        return disk
+      end,
+    })
 
     local path = create_file(100)
     vim.cmd.edit(path)
@@ -46,7 +56,6 @@ describe('deja-view', function()
     assert.are.same(saved, vim.fn.winsaveview())
 
     vim.fn.delete(path)
-    deja_view.setup(nil)
   end)
 
   it('ignores views that are out of bounds', function()

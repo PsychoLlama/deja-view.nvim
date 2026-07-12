@@ -14,13 +14,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Breaking:** Views are saved under Neovim's state directory
   (`stdpath('state') .. '/deja-view'`) instead of `/tmp`. Old views are not
   migrated; you lose your saved scroll positions once.
-- **Breaking:** The save mode override variables are renamed from
-  `deja_save_mode` to `deja_view_mode` (`vim.g` or `vim.b`).
 
 ### Added
 
 - An optional `setup()` function controls where views are saved. The plugin
   works without it.
+- A `driver` option for `setup()` decides where each buffer's view is stored,
+  replacing the `deja_view_mode` variables. It's a function of the buffer
+  number that returns a driver (or `nil` to skip the buffer).
 - Help docs: `:help deja-view`.
 
 ### Removed

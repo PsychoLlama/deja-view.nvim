@@ -7,6 +7,7 @@ local function get_defaults()
       vim.fn.stdpath('state') --[[@as string]],
       'deja-view'
     ),
+    driver = require('deja-view.driver').default,
   }
 end
 
@@ -34,7 +35,14 @@ return M
 --- Directory where views are persisted. Defaults to `deja-view/` under
 --- |stdpath('state')|.
 --- @field save_dir? string
+---
+--- Picks which driver, if any, remembers a buffer's view. Receives the
+--- buffer number and returns a driver, or `nil` to never remember it.
+--- Defaults to persisting real files to disk while skipping commit messages
+--- and terminals.
+--- @field driver? dejaview.DriverSelector
 
 --- Normalized config.
 --- @class dejaview.Config
 --- @field save_dir string
+--- @field driver dejaview.DriverSelector

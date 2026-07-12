@@ -1,7 +1,6 @@
-b:deja_view_mode	deja-view.txt	/*b:deja_view_mode*
 deja-view	deja-view.txt	/*deja-view*
 deja-view-api	deja-view.txt	/*deja-view-api*
+deja-view-config.driver	deja-view.txt	/*deja-view-config.driver*
+deja-view-drivers	deja-view.txt	/*deja-view-drivers*
 deja-view-overview	deja-view.txt	/*deja-view-overview*
-deja-view-save-modes	deja-view.txt	/*deja-view-save-modes*
 deja-view.setup	deja-view.txt	/*deja-view.setup*
-g:deja_view_mode	deja-view.txt	/*g:deja_view_mode*

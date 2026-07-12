@@ -1,5 +1,5 @@
-local config = require('deja-view._.config')
-local disk = require('deja-view._.disk')
+local config = require('deja-view.config')
+local disk = require('deja-view.disk')
 
 describe('disk', function()
   before_each(function()

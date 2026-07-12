@@ -33,29 +33,33 @@ Views are stored as JSON, one file per remembered buffer. File names are
 escaped and written flat, much like 'undodir'.
 
 ==============================================================================
-SAVE MODES                                               *deja-view-save-modes*
+DRIVERS                                                     *deja-view-drivers*
 
-Deja View decides how to store views depending on the type of buffer:
+A driver decides where a buffer's view is stored. Three are built in:
 
-- `disk` (default): persist views across sessions.
-- `memory`: remember views for the current session only. Useful for virtual
-  buffers, like help pages, man pages, or file browsers.
-- `none`: never remember anything.
+- `deja-view.disk`: persist views across sessions.
+- `deja-view.memory`: remember views for the current session only. Useful for
+  virtual buffers, like help pages, man pages, or file browsers.
 
-Commit messages and terminal buffers always use `none`; the same path holds
-different content every time, so restoring a view would do more harm than
-good.
+By default, real files are saved to disk while commit messages and terminal
+buffers are skipped; the same path holds different content every time, so
+restoring a view would do more harm than good.
 
-                                     *b:deja_view_mode* *g:deja_view_mode*
-Override the mode per buffer or globally with a variable:
+                                                        *deja-view-config.driver*
+To change this, pass a `driver` function to `setup`. It receives the buffer
+number and returns a driver, or `nil` to never remember the buffer:
 >lua
-  -- Keep views for this buffer in memory.
-  vim.b.deja_view_mode = 'memory'
+  require('deja-view').setup({
+    driver = function(bufnr)
+      -- Keep help pages in memory instead of persisting them.
+      if vim.bo[bufnr].buftype == 'help' then
+        return require('deja-view.memory')
+      end
 
-  -- Change the default for all buffers.
-  vim.g.deja_view_mode = 'memory'
-
-Buffer-local settings take priority over globals.
+      -- Fall back to the built-in behavior.
+      return require('deja-view.driver').default(bufnr)
+    end,
+  })
 
 ==============================================================================
 API                                                             *deja-view-api*

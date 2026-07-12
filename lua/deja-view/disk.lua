@@ -14,14 +14,14 @@ end
 --- @param path string Absolute path of the original file.
 --- @return string
 function M.get_path(path)
-  local config = require('deja-view._.config').get_config()
+  local config = require('deja-view.config').get_config()
   return vim.fs.joinpath(config.save_dir, escape_path(path))
 end
 
 --- @param path string Absolute path of the original file.
 --- @param view dejaview.View
 function M.write(path, view)
-  local config = require('deja-view._.config').get_config()
+  local config = require('deja-view.config').get_config()
 
   -- This is fast enough that it might as well be free.
   vim.fn.mkdir(config.save_dir, 'p')
