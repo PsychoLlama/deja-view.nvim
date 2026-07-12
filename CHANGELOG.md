@@ -7,14 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Fixed
-
-- Reloading a buffer (`:edit`, `:checktime`, …) no longer yanks the cursor back to the last saved position. Views are now saved when a buffer unloads, so the stored view stays fresh through reloads, `:bdelete`, and `'nohidden'` abandons.
+## [0.2.0] - 2026-07-12
 
 ### Changed
 
 - **Breaking:** Rewrote the plugin in Lua. Vim is no longer supported; only Neovim going forward.
 - **Breaking:** Views are saved under Neovim's state directory (`stdpath('state') .. '/deja-view'`) instead of `/tmp`. Views in `/tmp` don't survive a reboot, so there's nothing to migrate; you lose your saved scroll positions once.
+
+### Fixed
+
+- Reloading a buffer (`:edit`, `:checktime`, …) no longer yanks the cursor back to the last saved position. Views are now saved when a buffer unloads, so the stored view stays fresh through reloads, `:bdelete`, and `'nohidden'` abandons.
 
 ### Added
 
@@ -31,5 +33,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial release (unstable).
 
-[Unreleased]: https://github.com/PsychoLlama/deja-view.nvim/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/PsychoLlama/deja-view.nvim/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/PsychoLlama/deja-view.nvim/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/PsychoLlama/deja-view.nvim/commits/v0.1.0
