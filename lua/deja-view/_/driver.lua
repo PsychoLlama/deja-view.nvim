@@ -62,5 +62,6 @@ return M
 --- @field read fun(path: string): dejaview.View|nil
 --- @field write fun(path: string, view: dejaview.View)
 
---- The saved window state. Structure comes from |winsaveview()|.
---- @alias dejaview.View vim.fn.winsaveview.ret
+--- The saved window state. Structure comes from |winsaveview()|. Partial
+--- views are allowed because |winrestview()| accepts them.
+--- @alias dejaview.View vim.fn.winrestview.dict

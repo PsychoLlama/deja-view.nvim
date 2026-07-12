@@ -29,7 +29,11 @@ function M.restore()
   local view = require('deja-view._.driver').load().read(path)
 
   -- If the remembered line number is out of bounds, it's probably wrong.
-  if view == nil or view.lnum > vim.api.nvim_buf_line_count(0) then
+  if
+    view == nil
+    or view.lnum == nil
+    or view.lnum > vim.api.nvim_buf_line_count(0)
+  then
     return
   end
 
